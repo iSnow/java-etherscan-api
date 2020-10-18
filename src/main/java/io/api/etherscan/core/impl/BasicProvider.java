@@ -1,12 +1,13 @@
 package io.api.etherscan.core.impl;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
+import io.api.etherscan.error.ApiException;
 import io.api.etherscan.error.EtherScanException;
 import io.api.etherscan.error.ParseException;
 import io.api.etherscan.error.RateLimitException;
 import io.api.etherscan.executor.IHttpExecutor;
 import io.api.etherscan.manager.IQueueManager;
+import io.api.etherscan.model.utility.StringResponseTO;
 import io.api.etherscan.util.BasicUtils;
 
 import java.util.Map;
@@ -20,7 +21,7 @@ import java.util.Map;
  */
 abstract class BasicProvider {
 
-    static final int MAX_END_BLOCK = 999999999;
+    static final int MAX_END_BLOCK = Integer.MAX_VALUE;
     static final int MIN_START_BLOCK = 0;
 
     static final String ACT_PREFIX = "&action=";
@@ -44,22 +45,25 @@ abstract class BasicProvider {
 
     <T> T convert(final String json, final Class<T> tClass) {
         try {
-            return gson.fromJson(json, tClass);
-        } catch (Exception e) {
-            if (e instanceof JsonSyntaxException) {
-                Map<String, Object> map = gson.fromJson(json, Map.class);
-                Object statusCode = map.get("status");
-                if ((statusCode instanceof String) && (statusCode.equals("0"))) {
-                    Object message = map.get("message");
-                    if ((message instanceof String) && (message.equals("NOTOK"))) {
-                        Object result = map.get("result");
-                        if ((result instanceof String) && (result.equals("Max rate limit reached"))) {
-                            throw new RateLimitException ("Max rate limit reached");
-                        }
-                    }
-                }
+            final T t = gson.fromJson(json, tClass);
+            if (t instanceof StringResponseTO && ((StringResponseTO) t).getResult().startsWith("Max rate limit reached")) {
+                throw new RateLimitException(((StringResponseTO) t).getResult());
             }
-            throw new ParseException(e.getMessage(), e.getCause(), json);
+
+            return t;
+        } catch (Exception e) {
+            try {
+                final Map<String, Object> map = gson.fromJson(json, Map.class);
+                final Object result = map.get("result");
+                if (result instanceof String && ((String) result).startsWith("Max rate limit reached"))
+                    throw new RateLimitException(((String) result));
+
+                throw new ParseException(e.getMessage() + ", for response: " + json, e.getCause(), json);
+            } catch (ApiException ex) {
+                throw ex;
+            } catch (Exception ex) {
+                throw new ParseException(e.getMessage() + ", for response: " + json, e.getCause(), json);
+            }
         }
     }
 

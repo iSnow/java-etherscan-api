@@ -1,9 +1,10 @@
 # java-etherscan-api
 
-[![travis](https://travis-ci.org/GoodforGod/java-etherscan-api.svg?branch=master)](https://travis-ci.com/iSnow/java-etherscan-api)
-[![Maintainability](https://api.codeclimate.com/v1/badges/808997be2e69ff1ae8fe/maintainability)](https://codeclimate.com/github/GoodforGod/java-etherscan-api/maintainability)
-[![codecov](https://codecov.io/gh/GoodforGod/java-etherscan-api/branch/master/graph/badge.svg)](https://codecov.io/gh/GoodforGod/java-etherscan-api)
-[![Jitpack](https://jitpack.io/v/iSnow/java-etherscan-api.svg)](https://jitpack.io/#iSnow/java-etherscan-api)
+[![GitHub Action](https://github.com/goodforgod/java-etherscan-api/workflows/Java%20CI/badge.svg)](https://github.com/GoodforGod/dummymaker/actions?query=workflow%3A%22Java+CI%22)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=GoodforGod_java-etherscan-api&metric=coverage)](https://sonarcloud.io/dashboard?id=GoodforGod_dummymaker)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=GoodforGod_java-etherscan-api&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=GoodforGod_dummymaker)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=GoodforGod_java-etherscan-api&metric=ncloc)](https://sonarcloud.io/dashboard?id=GoodforGod_dummymaker)
+[![Jitpack](https://jitpack.io/v/iSnow/java-etherscan-api.svg)](https://jitpack.io/#GoodforGod/java-etherscan-api)
 
 [Etherscan](https://etherscan.io/apis) Java API implementation.
 
@@ -15,14 +16,14 @@ Library supports all available EtherScan *API* calls for all available *Ethereum
 <dependency>
     <groupId>com.github.goodforgod</groupId>
     <artifactId>java-etherscan-api</artifactId>
-    <version>1.0.2</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
 **Gradle**
 ```groovy
 dependencies {
-    compile 'com.github.goodforgod:java-etherscan-api:1.0.2'
+    compile 'com.github.goodforgod:java-etherscan-api:1.1.0'
 }
 ```
 
@@ -166,6 +167,8 @@ Token API methods migrated to [Account](#account-api) & [Stats](#stats-api) resp
 
 ## Version History
 
+**1.1.0** - Improved error handling, QueueManager improved, Gradle 6.7 instead of Maven, GitHub CI, Sonarcloud analyzer, dependencies updated.
+
 **1.0.2** - Minor http client improvements.
 
 **1.0.1** - Gorli & TOBALABA networks support.
@@ -174,4 +177,4 @@ Token API methods migrated to [Account](#account-api) & [Stats](#stats-api) resp
 
 ## License
 
-This project is licensed under the MIT - see the [LICENSE](LICENSE) file for details.
+This project licensed under the MIT - see the [LICENSE](LICENSE) file for details.

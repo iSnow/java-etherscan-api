@@ -1,5 +1,7 @@
 package io.api.etherscan.model;
 
+import java.util.Objects;
+
 /**
  * ! NO DESCRIPTION !
  *
@@ -13,7 +15,7 @@ public class TxInternal extends BaseTx {
     private int isError;
     private String errCode;
 
-    //<editor-fold desc="Getters">
+    // <editor-fold desc="Getters">
     public String getType() {
         return type;
     }
@@ -29,18 +31,22 @@ public class TxInternal extends BaseTx {
     public String getErrCode() {
         return errCode;
     }
-    //</editor-fold>
+    // </editor-fold>
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof TxInternal)) return false;
-        if (!super.equals(o)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof TxInternal))
+            return false;
+        if (!super.equals(o))
+            return false;
 
         TxInternal that = (TxInternal) o;
 
-        if (traceId != that.traceId) return false;
-        return errCode != null ? errCode.equals(that.errCode) : that.errCode == null;
+        if (traceId != that.traceId)
+            return false;
+        return Objects.equals(errCode, that.errCode);
     }
 
     @Override

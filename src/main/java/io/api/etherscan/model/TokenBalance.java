@@ -1,6 +1,7 @@
 package io.api.etherscan.model;
 
 import java.math.BigInteger;
+import java.util.Objects;
 
 /**
  * ! NO DESCRIPTION !
@@ -23,13 +24,15 @@ public class TokenBalance extends Balance {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
 
         TokenBalance that = (TokenBalance) o;
-
-        return tokenContract != null ? tokenContract.equals(that.tokenContract) : that.tokenContract == null;
+        return Objects.equals(tokenContract, that.tokenContract);
     }
 
     @Override

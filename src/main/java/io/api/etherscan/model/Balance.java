@@ -3,6 +3,7 @@ package io.api.etherscan.model;
 import io.api.etherscan.model.utility.BalanceTO;
 
 import java.math.BigInteger;
+import java.util.Objects;
 
 /**
  * ! NO DESCRIPTION !
@@ -26,7 +27,7 @@ public class Balance {
         return new Balance(balance.getAccount(), new BigInteger(balance.getBalance()));
     }
 
-    //<editor-fold desc="Getters">
+    // <editor-fold desc="Getters">
     public String getAddress() {
         return address;
     }
@@ -50,17 +51,20 @@ public class Balance {
     public BigInteger getEther() {
         return balance.asEther();
     }
-    //</editor-fold>
+    // </editor-fold>
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         Balance balance1 = (Balance) o;
 
-        if (!balance.equals(balance1.balance)) return false;
-        return address != null ? address.equals(balance1.address) : balance1.address == null;
+        if (!balance.equals(balance1.balance))
+            return false;
+        return Objects.equals(address, balance1.address);
     }
 
     @Override

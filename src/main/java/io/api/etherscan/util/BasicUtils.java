@@ -26,6 +26,8 @@ public class BasicUtils {
     private static final Pattern TXHASH_PATTERN = Pattern.compile("0x[a-zA-Z0-9]{64}");
     private static final Pattern HEX_PATTERN = Pattern.compile("[a-zA-Z0-9]+");
 
+    private BasicUtils() {}
+
     public static boolean isEmpty(String value) {
         return value == null || value.isEmpty();
     }
@@ -42,14 +44,8 @@ public class BasicUtils {
         long startCompensated = compensateMinBlock(startBlock);
         long endCompensated = compensateMaxBlock(endBlock);
 
-        final long startFinal = (startCompensated > endCompensated)
-                ? endCompensated
-                : startCompensated;
-
-        final long endFinal = (startCompensated > endCompensated)
-                ? startCompensated
-                : endCompensated;
-
+        final long startFinal = Math.min(startCompensated, endCompensated);
+        final long endFinal = Math.max(startCompensated, endCompensated);
         return new BlockParam(startFinal, endFinal);
     }
 
@@ -108,9 +104,10 @@ public class BasicUtils {
 
         if (response.getStatus() != 1) {
             if (response.getMessage() == null) {
-                throw new EtherScanException("Unexpected Etherscan exception, no information from server about error, code " + response.getStatus());
+                throw new EtherScanException(
+                        "Unexpected Etherscan exception, no information from server about error, code " + response.getStatus());
             } else if (!response.getMessage().startsWith("No tra") && !response.getMessage().startsWith("No rec")) {
-                throw new EtherScanException(response.getMessage() + ", with status " + response.getStatus());
+                throw new EtherScanException(response);
             }
         }
     }

@@ -1,8 +1,7 @@
 package io.api.etherscan.statistic;
 
-import io.api.etherscan.core.impl.EtherScanApi;
+import io.api.ApiRunner;
 import io.api.etherscan.model.Price;
-import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -11,18 +10,16 @@ import org.junit.Test;
  * @author GoodforGod
  * @since 03.11.2018
  */
-public class StatisticPriceApiTest extends Assert {
-
-    private final EtherScanApi api = new EtherScanApi();
+public class StatisticPriceApiTest extends ApiRunner {
 
     @Test
     public void correct() {
-        Price price = api.stats().lastPrice();
+        Price price = getApi().stats().lastPrice();
         assertNotNull(price);
         assertNotNull(price.btcTimestamp());
         assertNotNull(price.usdTimestamp());
-        assertNotEquals(0, price.inBtc());
-        assertNotEquals(0, price.inUsd());
+        assertNotEquals(0.0, price.inBtc());
+        assertNotEquals(0.0, price.inUsd());
         assertNotNull(price.toString());
 
         Price empty = new Price();

@@ -6,6 +6,7 @@ import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * ! NO DESCRIPTION !
@@ -32,9 +33,9 @@ public class Log {
     private String logIndex;
     private Long _logIndex;
 
-    //<editor-fold desc="Getters">
+    // <editor-fold desc="Getters">
     public Long getBlockNumber() {
-        if(_blockNumber == null && !BasicUtils.isEmpty(blockNumber)){
+        if (_blockNumber == null && !BasicUtils.isEmpty(blockNumber)) {
             _blockNumber = BasicUtils.parseHex(blockNumber).longValue();
         }
         return _blockNumber;
@@ -49,7 +50,7 @@ public class Log {
     }
 
     public Long getTransactionIndex() {
-        if(_transactionIndex == null && !BasicUtils.isEmpty(transactionIndex)){
+        if (_transactionIndex == null && !BasicUtils.isEmpty(transactionIndex)) {
             _transactionIndex = BasicUtils.parseHex(transactionIndex).longValue();
         }
 
@@ -57,7 +58,7 @@ public class Log {
     }
 
     public LocalDateTime getTimeStamp() {
-        if(_timeStamp == null && !BasicUtils.isEmpty(timeStamp)) {
+        if (_timeStamp == null && !BasicUtils.isEmpty(timeStamp)) {
             long formatted = (timeStamp.charAt(0) == '0' && timeStamp.charAt(1) == 'x')
                     ? BasicUtils.parseHex(timeStamp).longValue()
                     : Long.parseLong(timeStamp);
@@ -67,9 +68,11 @@ public class Log {
     }
 
     /**
-     * Return the "timeStamp" field of the event record as a long-int representing the milliseconds
-     * since the Unix epoch (1970-01-01 00:00:00).
-     * @return milliseconds between Unix epoch and `timeStamp`. If field is empty or null, returns null
+     * Return the "timeStamp" field of the event record as a long-int representing
+     * the milliseconds since the Unix epoch (1970-01-01 00:00:00).
+     * 
+     * @return milliseconds between Unix epoch and `timeStamp`. If field is empty or
+     *         null, returns null
      */
     public Long getTimeStampAsMillis() {
         if (BasicUtils.isEmpty(timeStamp)) {
@@ -86,7 +89,7 @@ public class Log {
     }
 
     public BigInteger getGasPrice() {
-        if(!BasicUtils.isEmpty(gasPrice)){
+        if (!BasicUtils.isEmpty(gasPrice)) {
             _gasPrice = BasicUtils.parseHex(gasPrice);
         }
 
@@ -94,7 +97,7 @@ public class Log {
     }
 
     public BigInteger getGasUsed() {
-        if(!BasicUtils.isEmpty(gasUsed)){
+        if (!BasicUtils.isEmpty(gasUsed)) {
             _gasUsed = BasicUtils.parseHex(gasUsed);
         }
 
@@ -106,26 +109,31 @@ public class Log {
     }
 
     public Long getLogIndex() {
-        if(_logIndex == null && !BasicUtils.isEmpty(logIndex)){
+        if (_logIndex == null && !BasicUtils.isEmpty(logIndex)) {
             _logIndex = BasicUtils.parseHex(logIndex).longValue();
         }
         return _logIndex;
     }
-    //</editor-fold>
+    // </editor-fold>
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         Log log = (Log) o;
 
-        if (blockNumber != null ? !blockNumber.equals(log.blockNumber) : log.blockNumber != null) return false;
-        if (address != null ? !address.equals(log.address) : log.address != null) return false;
-        if (transactionHash != null ? !transactionHash.equals(log.transactionHash) : log.transactionHash != null)
+        if (!Objects.equals(blockNumber, log.blockNumber))
             return false;
-        if (timeStamp != null ? !timeStamp.equals(log.timeStamp) : log.timeStamp != null) return false;
-        return logIndex != null ? logIndex.equals(log.logIndex) : log.logIndex == null;
+        if (!Objects.equals(address, log.address))
+            return false;
+        if (!Objects.equals(transactionHash, log.transactionHash))
+            return false;
+        if (!Objects.equals(timeStamp, log.timeStamp))
+            return false;
+        return Objects.equals(logIndex, log.logIndex);
     }
 
     @Override
